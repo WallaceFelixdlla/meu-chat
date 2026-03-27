@@ -21,18 +21,17 @@ function TelaCadastro({
     boxSizing: "border-box",
   };
 
-  const logoStyle = {
-    width: isMobile ? "130px" : "160px",
-    maxWidth: "60%",
-    marginBottom: "10px",
-    filter: "drop-shadow(0 8px 18px rgba(0,0,0,0.12))",
+  const fotoPerfilContainerStyle = {
+    position: "relative", // Necessário para posicionar elementos internos se precisar
+    width: isMobile ? "120px" : "150px",
+    height: isMobile ? "120px" : "150px",
+    margin: "0 auto 20px auto",
   };
 
   const fotoPerfilStyle = {
-    width: isMobile ? "110px" : "132px",
-    height: isMobile ? "110px" : "132px",
+    width: "100%",
+    height: "100%",
     borderRadius: "50%",
-    margin: "0 auto 18px auto",
     overflow: "hidden",
     display: "flex",
     alignItems: "center",
@@ -40,6 +39,8 @@ function TelaCadastro({
     background: "linear-gradient(to bottom, #e8ece8, #d3d8d3)",
     border: "6px solid #92a889",
     boxShadow: "0 10px 22px rgba(0,0,0,0.10)",
+    cursor: "pointer",
+    transition: "transform 0.3s ease",
   };
 
   return (
@@ -63,81 +64,61 @@ function TelaCadastro({
           alignItems: "center",
         }}
       >
-        <img src={logo} alt="Logo FalaAí" style={logoStyle} />
+        <img 
+          src={logo} 
+          alt="Logo FalaAí" 
+          style={{
+            width: isMobile ? "130px" : "160px",
+            maxWidth: "60%",
+            marginBottom: "15px",
+            filter: "drop-shadow(0 8px 18px rgba(0,0,0,0.12))",
+          }} 
+        />
 
         <div style={cardStyle}>
-          <h2
-            style={{
-              margin: "0 0 8px 0",
-              fontSize: isMobile ? "28px" : "32px",
-              color: "#2f3447",
-            }}
-          >
+          <h2 style={{ margin: "0 0 8px 0", fontSize: isMobile ? "28px" : "32px", color: "#2f3447" }}>
             Cadastro
           </h2>
 
-          <p
-            style={{
-              margin: "0 auto 24px auto",
-              color: "#5f667a",
-              fontSize: "15px",
-              lineHeight: "1.4",
-              maxWidth: "280px",
-              textAlign: "center",
-            }}
-          >
-            Foto e nome do perfil são obrigatórios
+          <p style={{ margin: "0 auto 24px auto", color: "#5f667a", fontSize: "14px", textAlign: "center" }}>
+            Toque no círculo para escolher sua foto
           </p>
 
-          <div style={fotoPerfilStyle}>
-            {imagem ? (
-              <img
-                src={imagem}
-                alt="Foto do perfil"
-                style={{
-                  width: "100%",
-                  height: "100%",
-                  objectFit: "cover",
-                }}
-              />
-            ) : (
-              <span
-                style={{
-                  color: "#6a7286",
-                  fontSize: "20px",
-                  fontWeight: "600",
-                }}
-              >
-                Foto
-              </span>
-            )}
-          </div>
-
-          <label
-            style={{
-              display: "inline-block",
-              marginBottom: "18px",
-              padding: "10px 16px",
-              borderRadius: "12px",
-              background: "#eef5ee",
-              border: "1px solid #c9d8c9",
-              color: "#2f3447",
-              fontWeight: "600",
-              cursor: "pointer",
-            }}
-          >
-            Escolher imagem
+          {/* Container da Foto Centralizado */}
+          <div style={fotoPerfilContainerStyle}>
+            <label htmlFor="upload-button" style={fotoPerfilStyle}>
+              {imagem ? (
+                <img
+                  src={imagem}
+                  alt="Foto do perfil"
+                  style={{
+                    width: "100%",
+                    height: "100%",
+                    objectFit: "cover", // Garante que a imagem preencha o círculo sem esticar
+                    objectPosition: "center", // Mantém o foco no meio
+                  }}
+                />
+              ) : (
+                <div style={{ textAlign: "center" }}>
+                  <span style={{ color: "#6a7286", fontSize: "16px", fontWeight: "600", display: "block" }}>
+                    Adicionar
+                  </span>
+                  <span style={{ color: "#6a7286", fontSize: "14px" }}>Foto</span>
+                </div>
+              )}
+            </label>
             <input
               type="file"
+              id="upload-button"
               accept="image/*"
               onChange={handleImagem}
               style={{ display: "none" }}
             />
-          </label>
+          </div>
 
           <input
             type="text"
-            placeholder="Nome do perfil"
+            placeholder="Seu nome completo"
             value={nome}
             onChange={(e) => setNome(e.target.value)}
             style={{
@@ -150,14 +131,13 @@ function TelaCadastro({
               outline: "none",
               boxSizing: "border-box",
               color: "#2f3447",
-              boxShadow: "inset 0 1px 2px rgba(0,0,0,0.04)",
+              marginBottom: "12px"
             }}
           />
 
           <button
             onClick={handleCadastrar}
             style={{
-              marginTop: "18px",
               width: "100%",
               padding: "14px",
               borderRadius: "14px",
@@ -168,9 +148,12 @@ function TelaCadastro({
               fontSize: "16px",
               cursor: "pointer",
               boxShadow: "0 10px 20px rgba(15,155,15,0.22)",
+              transition: "opacity 0.2s"
             }}
+            onMouseOver={(e) => (e.target.style.opacity = "0.9")}
+            onMouseOut={(e) => (e.target.style.opacity = "1")}
           >
-            Cadastrar
+            Finalizar Cadastro
           </button>
         </div>
       </div>
